@@ -3,7 +3,6 @@ return {
   {"williamboman/mason.nvim", opts = {}},
   {"williamboman/mason-lspconfig.nvim", opts = {}},
   "neovim/nvim-lspconfig",
-  "simrat39/rust-tools.nvim",
   "hrsh7th/nvim-cmp",
   "hrsh7th/cmp-nvim-lsp",
   "dcampos/nvim-snippy",
