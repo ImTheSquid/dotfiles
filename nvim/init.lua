@@ -1,3 +1,8 @@
+-- Keybinds
+vim.g.mapleader = " "
+vim.keymap.set("n", "<leader>tt", function() require("trouble").toggle() end)
+
+-- Lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({ "git",
