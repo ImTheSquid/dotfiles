@@ -1,6 +1,7 @@
 -- Keybinds
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>tt", function() require("trouble").toggle() end)
+vim.keymap.set("n", "<leader>tq", function() require("trouble").toggle("quickfix") end)
 
 -- Lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -41,7 +42,32 @@ lspconfig.rust_analyzer.setup{
 	},
 	cargo = {
 	  features = "all";
-  	}
+  	},
+    files = {
+  excludeDirs = {
+    "_build",
+    ".dart_tool",
+    ".flatpak-builder",
+    ".git",
+    ".gitlab",
+    ".gitlab-ci",
+    ".gradle",
+    ".idea",
+    ".next",
+    ".project",
+    ".scannerwork",
+    ".settings",
+    ".venv",
+    ".vercel",
+    "archetype-resources",
+    "bin",
+    "hooks",
+    "node_modules",
+    "po",
+    "screenshots",
+    "target"
+}
+    }
 
         }
     }
