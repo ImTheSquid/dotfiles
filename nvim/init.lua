@@ -22,6 +22,7 @@ require("lazy").setup("plugins")
 local lspconfig = require('lspconfig')
 lspconfig.pyright.setup {}
 lspconfig.tsserver.setup {}
+lspconfig.pest_ls.setup {}
 lspconfig.typst_lsp.setup{
 	settings = {
 		exportPdf = "onType" -- Choose onType, onSave or never.
