@@ -208,6 +208,7 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
 
 vim.filetype.add({
     extension = {
-        typ = 'typst'
+        typ = 'typst',
+        pest = 'pest',
     }
 })
