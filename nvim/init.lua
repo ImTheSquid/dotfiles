@@ -19,20 +19,33 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins")
 
 -- Setup language servers.
+--Enable (broadcasting) snippet capability for completion
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {}
-lspconfig.tsserver.setup {}
-lspconfig.pest_ls.setup {}
+lspconfig.pyright.setup {
+    capabilities = capabilities,
+}
+lspconfig.tsserver.setup {
+    capabilities = capabilities,
+}
+lspconfig.pest_ls.setup {
+    capabilities = capabilities,
+}
 lspconfig.typst_lsp.setup{
+  capabilities = capabilities,
 	settings = {
 		exportPdf = "onType" -- Choose onType, onSave or never.
         -- serverPath = "" -- Normally, there is no need to uncomment it.
 	}
 }
-lspconfig.hls.setup{
+lspconfig.hls.setup{,
+    capabilities = capabilities,
   filetypes = { 'haskell', 'lhaskell', 'cabal' },
 }
 lspconfig.rust_analyzer.setup{
+    capabilities = capabilities,
     settings = {
         ['rust-analyzer'] = {
             checkOnSave = {
@@ -73,10 +86,6 @@ lspconfig.rust_analyzer.setup{
         }
     }
 }
-
---Enable (broadcasting) snippet capability for completion
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 lspconfig.cssls.setup {
   capabilities = capabilities,
