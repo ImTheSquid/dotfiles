@@ -40,7 +40,7 @@ lspconfig.typst_lsp.setup{
         -- serverPath = "" -- Normally, there is no need to uncomment it.
 	}
 }
-lspconfig.hls.setup{,
+lspconfig.hls.setup{
     capabilities = capabilities,
   filetypes = { 'haskell', 'lhaskell', 'cabal' },
 }
