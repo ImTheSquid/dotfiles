@@ -221,3 +221,20 @@ vim.filetype.add({
         pest = 'pest',
     }
 })
+
+-- Command autocompletion
+local wilder = require('wilder')
+wilder.setup({modes = {':', '/', '?'}})
+
+wilder.set_option('renderer', wilder.renderer_mux({
+  [':'] = wilder.popupmenu_renderer({
+    highlighter = wilder.basic_highlighter(),
+  left = {' ', wilder.popupmenu_devicons()},
+  right = {' ', wilder.popupmenu_scrollbar()},
+  }),
+  ['/'] = wilder.wildmenu_renderer({
+    highlighter = wilder.basic_highlighter(),
+  }),
+}))
+vim.keymap.set("c", "<C-s>", function() require("wilder").next() end)
+vim.keymap.set("c", "<C-S-s>", function() require("wilder").previous() end)
