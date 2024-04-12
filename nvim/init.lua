@@ -44,6 +44,9 @@ lspconfig.hls.setup{
     capabilities = capabilities,
   filetypes = { 'haskell', 'lhaskell', 'cabal' },
 }
+lspconfig.clangd.setup{
+    capabilities = capabilities,
+}
 lspconfig.rust_analyzer.setup{
     capabilities = capabilities,
     settings = {
