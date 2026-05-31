@@ -23,76 +23,71 @@ require("lazy").setup("plugins")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {
+vim.lsp.config('*', {
     capabilities = capabilities,
-}
-lspconfig.tsserver.setup {
-    capabilities = capabilities,
-}
-lspconfig.pest_ls.setup {
-    capabilities = capabilities,
-}
-lspconfig.typst_lsp.setup{
-  capabilities = capabilities,
-	settings = {
-		exportPdf = "onType" -- Choose onType, onSave or never.
-        -- serverPath = "" -- Normally, there is no need to uncomment it.
-	}
-}
-lspconfig.hls.setup{
-    capabilities = capabilities,
-  filetypes = { 'haskell', 'lhaskell', 'cabal' },
-}
-lspconfig.clangd.setup{
-    capabilities = capabilities,
-}
-lspconfig.rust_analyzer.setup{
-    capabilities = capabilities,
+})
+
+vim.lsp.config('tinymist', {
+    settings = {
+        exportPdf = "onType",
+    },
+})
+
+vim.lsp.config('hls', {
+    filetypes = { 'haskell', 'lhaskell', 'cabal' },
+})
+
+vim.lsp.config('rust_analyzer', {
     settings = {
         ['rust-analyzer'] = {
             checkOnSave = {
-          command = "clippy";
+                command = "clippy",
+            },
+            check = {
+                command = "clippy",
+            },
+            cargo = {
+                features = "all",
+            },
+            files = {
+                excludeDirs = {
+                    "_build",
+                    ".dart_tool",
+                    ".flatpak-builder",
+                    ".git",
+                    ".gitlab",
+                    ".gitlab-ci",
+                    ".gradle",
+                    ".idea",
+                    ".next",
+                    ".project",
+                    ".scannerwork",
+                    ".settings",
+                    ".venv",
+                    ".vercel",
+                    "archetype-resources",
+                    "bin",
+                    "hooks",
+                    "node_modules",
+                    "po",
+                    "screenshots",
+                    "target",
+                },
+            },
         },
-	check = {
-	  command = "clippy";
-	},
-	cargo = {
-	  features = "all";
-  	},
-    files = {
-  excludeDirs = {
-    "_build",
-    ".dart_tool",
-    ".flatpak-builder",
-    ".git",
-    ".gitlab",
-    ".gitlab-ci",
-    ".gradle",
-    ".idea",
-    ".next",
-    ".project",
-    ".scannerwork",
-    ".settings",
-    ".venv",
-    ".vercel",
-    "archetype-resources",
-    "bin",
-    "hooks",
-    "node_modules",
-    "po",
-    "screenshots",
-    "target"
-}
-    }
+    },
+})
 
-        }
-    }
-}
-
-lspconfig.cssls.setup {
-  capabilities = capabilities,
-}
+vim.lsp.enable({
+    'pyright',
+    'ts_ls',
+    'pest_ls',
+    'tinymist',
+    'hls',
+    'clangd',
+    'rust_analyzer',
+    'cssls',
+})
 
 --require("mason").setup()
 -- Treesitter Plugin Setup 
