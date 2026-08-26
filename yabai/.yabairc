@@ -1,0 +1,80 @@
+#!/usr/bin/env sh
+
+#
+# for this to work you must configure sudo such that
+# it will be able to run the command without password
+#
+# see this wiki page for information:
+#  - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#configure-scripting-addition
+#
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+#
+
+# workaround for focus_follows_mouse randomly stopping
+yabai -m signal --add event=display_changed action="yabai -m config focus_follows_mouse autoraise"
+yabai -m signal --add event=space_changed action="yabai -m config focus_follows_mouse autoraise"
+yabai -m signal --add event=mission_control_exit action="yabai -m config focus_follows_mouse autoraise"
+
+# Notify sketchybar so space items can rename themselves based on window state.
+yabai -m signal --add event=window_created       action="sketchybar --trigger window_change"
+yabai -m signal --add event=window_destroyed     action="sketchybar --trigger window_change"
+yabai -m signal --add event=window_moved         action="sketchybar --trigger window_change"
+yabai -m signal --add event=window_minimized     action="sketchybar --trigger window_change"
+yabai -m signal --add event=window_deminimized   action="sketchybar --trigger window_change"
+yabai -m signal --add event=application_terminated action="sketchybar --trigger window_change"
+yabai -m signal --add event=space_changed        action="sketchybar --trigger window_change"
+yabai -m signal --add event=mission_control_exit action="sketchybar --trigger window_change"
+
+fixwindows() {
+    for n in "$@"; do
+        yabai -m signal --add app="$n" event=window_created action='yabai -m space --focus next && sleep 0.01 && yabai -m space --focus prev'
+        yabai -m signal --add app="$n" event=window_destroyed action='yabai -m space --focus next && sleep 0.01 && yabai -m space --focus prev'
+    done
+}
+
+# fixwindows '^Finder$' '^iTerm$' '^Ghostty$'
+
+
+ignore() {
+    for n in "${@:2}"; do
+        yabai -m rule --add $1="$n" manage=off
+    done
+}
+
+ignore app "^System (Settings)|(Preferences)$" "^BetterDisplay$" "^Bitwarden$" "^Reminders$" "^FaceTime$"
+ignore title "^Extension:.+$" "^.*Symbol Editor$" "^Control Center$"
+# global settings
+yabai -m config                                 \
+    external_bar                 all:38:0       \
+    menubar_opacity              1.0            \
+    mouse_follows_focus          off            \
+    focus_follows_mouse          autoraise      \
+    display_arrangement_order    default        \
+    window_origin_display        default        \
+    window_placement             second_child   \
+    window_insertion_point       focused        \
+    window_zoom_persist          on             \
+    window_shadow                on             \
+    window_animation_duration    0.0            \
+    window_animation_easing      ease_out_circ  \
+    window_opacity_duration      0.0            \
+    active_window_opacity        1.0            \
+    normal_window_opacity        0.90           \
+    window_opacity               off            \
+    insert_feedback_color        0xffd75f5f     \
+    split_ratio                  0.50           \
+    split_type                   auto           \
+    auto_balance                 off            \
+    top_padding                  03             \
+    bottom_padding               03             \
+    left_padding                 03             \
+    right_padding                03             \
+    window_gap                   03             \
+    layout                       bsp            \
+    mouse_modifier               fn             \
+    mouse_action1                move           \
+    mouse_action2                resize         \
+    mouse_drop_action            swap
+
+echo "yabai configuration loaded.."

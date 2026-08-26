@@ -1,0 +1,15 @@
+[user]
+	name = Jack Hogan
+	email = jackhogan11@gmail.com
+	signingkey = 59CCC8A9
+[commit]
+	gpgsign = true
+[core]
+	autocrlf = input
+	excludesFile = ~/.gitignore
+[cinnabar]
+	version-check = 1708465504
+[push]
+	autoSetupRemote = true
+[init]
+	defaultBranch = main

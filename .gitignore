@@ -1,0 +1,7 @@
+.DS_Store
+
+# Karabiner-Elements rewrites these on every config change
+karabiner/automatic_backups/
+
+# Machine-local secrets, sourced by zsh/.zshrc. Must never be committed.
+.zsh_secrets
