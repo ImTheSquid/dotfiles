@@ -59,6 +59,23 @@ chmod +x "$DOTS/yabai/.yabairc" "$DOTS/scripts/toggle_yabai_focus.sh"
 ln -sfn "$HOME/.config/sketchybar/sketchybarrc" "$HOME/.sketchybarrc"
 echo "  link   $HOME/.sketchybarrc"
 
+# nvim keeps plugins, shada, swap and its luac cache in these. Running `sudo nvim`
+# once creates them owned by root, and every later run then fails to write them.
+NVIM_DIRS=(
+  "$HOME/.local/share/nvim"
+  "$HOME/.local/state/nvim"
+  "$HOME/.cache/nvim"
+)
+STOLEN=()
+for dir in "${NVIM_DIRS[@]}"; do
+  mkdir -p "$dir" 2>/dev/null || true
+  [[ -O "$dir" ]] || STOLEN+=("$dir")
+done
+if ((${#STOLEN[@]})); then
+  echo "  WARN   nvim dirs not owned by $USER: ${STOLEN[*]}"
+  echo "         fix with: sudo chown -R $USER:staff ${STOLEN[*]}"
+fi
+
 if [[ ! -f "$HOME/.zsh_secrets" ]]; then
   cat > "$HOME/.zsh_secrets" <<'EOF'
 #!/usr/bin/env zsh

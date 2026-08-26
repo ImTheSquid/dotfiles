@@ -209,7 +209,7 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
         return
       end
     end
-    session_manager.save_current_session()
+    require('session_manager').save_current_session()
   end
 })
 
