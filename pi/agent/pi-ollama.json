@@ -1,0 +1,12 @@
+{
+  "baseUrl": "http://localhost:11434",
+  "apiKey": "ollama",
+  "api": "openai-completions",
+  "compat": {
+    "supportsDeveloperRole": false,
+    "supportsReasoningEffort": false
+  },
+  "authHeader": true,
+  "prefix": "/v1",
+  "version": 1
+}

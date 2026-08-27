@@ -22,6 +22,26 @@ git clone https://github.com/ImTheSquid/dotfiles ~/dotfiles
 | `zed/settings.json` | `~/.config/zed/settings.json` | |
 | `scripts/toggle_yabai_focus.sh` | `~/toggle_yabai_focus.sh` | Karabiner calls this by absolute path. |
 | `firefox/userChrome.css` | manual | Drop into the profile's `chrome/`. |
+| `pi/` | **not linked** | pi agent config. See below. |
+
+## pi
+
+`~/.pi` is 562M of `node_modules`, model caches, sessions and logs; only four
+small JSON files are worth keeping. They are **copied, not symlinked**, because
+pi rewrites `settings.json` on every model load and embeds a live API key in it.
+
+```sh
+pi/sync.sh          # ~/.pi -> repo, stripping keys and volatile fields
+```
+
+The sync stages files, verifies no live `apiKey` survived, and only then writes
+into the repo — a failed run publishes nothing. Every `apiKey` in `pi/` reads
+`REPLACE_ME`; substitute the real oMLX key by hand when restoring. `auth.json`
+is gitignored and must stay that way.
+
+Restoring on a new machine means copying `pi/agent/*.json` and
+`pi/web-search.json` back into `~/.pi`, then fixing up the key — pi repopulates
+the model catalog itself.
 
 ## Secrets
 

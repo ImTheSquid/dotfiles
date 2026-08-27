@@ -5,3 +5,16 @@ karabiner/automatic_backups/
 
 # Machine-local secrets, sourced by zsh/.zshrc. Must never be committed.
 .zsh_secrets
+
+# pi: only the sanitized JSON that pi/sync.sh produces belongs here.
+# auth.json is pi's credential store; the rest is cache and runtime state.
+pi/agent/auth.json
+pi/agent/models-store.json
+pi/agent/*.bak
+pi/agent/npm/
+pi/agent/cache/
+pi/agent/bin/
+pi/agent/sessions/
+pi/agent/ayu/
+pi/agent/fff/
+pi/context-mode/

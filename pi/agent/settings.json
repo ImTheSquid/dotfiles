@@ -1,0 +1,66 @@
+{
+  "theme": "dark",
+  "packages": [
+    "npm:context-mode",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:@ayulab/pi-rewind",
+    "npm:@tintinweb/pi-subagents",
+    "npm:pi-lens",
+    "npm:@ff-labs/pi-fff",
+    "npm:pi-mcp-adapter",
+    "npm:pi-web-access",
+    "npm:pi-localllm-provider",
+    "npm:@mrclrchtr/supi-extras",
+    "npm:@plannotator/pi-extension"
+  ],
+  "defaultProvider": "localllm-omlx",
+  "defaultModel": "Qwen3.8-27B-4bit:qwen3-r-code-perf",
+  "localllm": {
+    "servers": [
+      {
+        "id": "1p26jx",
+        "name": "oMLX",
+        "baseUrl": "http://127.0.0.1:8000/v1",
+        "apiKey": "REPLACE_ME",
+        "apiType": "omlx",
+        "models": [
+          {
+            "id": "Qwen3.8-27B-4bit",
+            "name": "Qwen3.8-27B-4bit",
+            "contextWindow": 262144,
+            "maxTokens": 32768,
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ]
+          },
+          {
+            "id": "gemma-4-12B-it-qat-OptiQ-4bit",
+            "name": "gemma-4-12B-it-qat-OptiQ-4bit",
+            "contextWindow": 262144,
+            "maxTokens": 32768,
+            "reasoning": false,
+            "input": [
+              "text",
+              "image"
+            ]
+          },
+          {
+            "id": "Qwen3.8-27B-4bit:qwen3-r-code-perf",
+            "name": "Qwen3.8-27B-4bit:qwen3-r-code-perf",
+            "contextWindow": 262144,
+            "maxTokens": 32768,
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "defaultThinkingLevel": "medium"
+}
