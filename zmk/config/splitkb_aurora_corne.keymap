@@ -1,0 +1,83 @@
+/*
+ * Aurora Corne rev1.1 — standard QWERTY + hardware test layer.
+ *
+ * 0 BASE  QWERTY
+ * 1 NUM   numbers and symbols     (hold left thumb)
+ * 2 NAV   arrows, F-keys, media   (hold right thumb)
+ * 3 TEST  RGB and reset controls  (NUM+NAV, or latch from the left half alone)
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/rgb.h>
+#include <dt-bindings/zmk/ext_power.h>
+
+/* 21 per-key LEDs per half. Trailing LEDs stay dark if this is set too low. */
+&led_strip {
+    chain-length = <21>;
+};
+
+/ {
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+
+        tri_layer {
+            if-layers = <1 2>;
+            then-layer = <3>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        base_layer {
+            display-name = "BASE";
+            bindings = <
+&kp TAB    &kp Q  &kp W  &kp E     &kp R        &kp T        &kp Y      &kp U  &kp I      &kp O    &kp P     &kp BSPC
+&kp LCTRL  &kp A  &kp S  &kp D     &kp F        &kp G        &kp H      &kp J  &kp K      &kp L    &kp SEMI  &kp SQT
+&kp LSHFT  &kp Z  &kp X  &kp C     &kp V        &kp B        &kp N      &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
+                         &kp LGUI  &lt 1 SPACE  &kp C_MUTE   &kp RET    &mo 2  &kp RALT
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        num_layer {
+            display-name = "NUM";
+            bindings = <
+&kp GRAVE  &kp N1     &kp N2     &kp N3    &kp N4    &kp N5     &kp N6     &kp N7    &kp N8     &kp N9    &kp N0     &kp BSPC
+&trans     &kp EXCL   &kp AT     &kp HASH  &kp DLLR  &kp PRCNT  &kp CARET  &kp AMPS  &kp STAR   &kp LPAR  &kp RPAR   &kp PIPE
+&tog 3     &kp MINUS  &kp EQUAL  &kp LBKT  &kp RBKT  &kp BSLH   &kp UNDER  &kp PLUS  &kp LBRC   &kp RBRC  &kp TILDE  &kp DEL
+                                 &trans    &trans    &trans     &trans     &trans    &trans
+            >;
+
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp PG_UP PG_DN>;
+        };
+
+        nav_layer {
+            display-name = "NAV";
+            bindings = <
+&kp ESC  &kp F1   &kp F2   &kp F3   &kp F4   &kp F5   &kp F6      &kp F7     &kp F8    &kp F9     &kp F10    &kp DEL
+&trans   &kp F11  &kp F12  &none    &none    &none    &kp LEFT    &kp DOWN   &kp UP    &kp RIGHT  &kp HOME   &kp END
+&tog 3   &none    &none    &none    &none    &none    &kp C_PREV  &kp C_PP   &kp C_NEXT &kp PG_UP &kp PG_DN  &none
+                           &trans   &trans   &trans   &trans      &trans     &trans
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_NEXT C_PREV &inc_dec_kp C_NEXT C_PREV>;
+        };
+
+        test_layer {
+            display-name = "TEST";
+            bindings = <
+&rgb_ug RGB_TOG    &rgb_ug RGB_COLOR_HSB(0,100,100)  &rgb_ug RGB_COLOR_HSB(120,100,100)  &rgb_ug RGB_COLOR_HSB(240,100,100)  &rgb_ug RGB_COLOR_HSB(0,0,100)  &rgb_ug RGB_EFF    &bootloader  &sys_reset  &bt BT_CLR  &out OUT_USB  &out OUT_BLE  &none
+&ext_power EP_TOG  &rgb_ug RGB_HUI                   &rgb_ug RGB_SAI                     &rgb_ug RGB_BRI                     &rgb_ug RGB_SPI                 &rgb_ug RGB_ON     &none        &none       &none       &none         &none         &none
+&tog 3             &rgb_ug RGB_HUD                   &rgb_ug RGB_SAD                     &rgb_ug RGB_BRD                     &rgb_ug RGB_SPD                 &rgb_ug RGB_OFF    &none        &none       &none       &none         &none         &none
+                                                                                         &trans                              &trans                          &trans             &trans       &trans      &trans
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_BRI_UP C_BRI_DN &inc_dec_kp C_BRI_UP C_BRI_DN>;
+        };
+    };
+};
