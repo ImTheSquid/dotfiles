@@ -16,6 +16,7 @@
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/ext_power.h>
+#include <dt-bindings/zmk/pointing.h>
 
 /* 21 per-key LEDs per half. Trailing LEDs stay dark if this is set too low. */
 &led_strip {
@@ -23,6 +24,19 @@
 };
 
 / {
+    behaviors {
+        /*
+         * &msc is velocity-based, so the tap has to last long enough to move
+         * the wheel; the 5 ms default of sensor-rotate scrolls nothing.
+         */
+        scroll_encoder: scroll_encoder {
+            compatible = "zmk,behavior-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
+            tap-ms = <100>;
+        };
+    };
+
     conditional_layers {
         compatible = "zmk,conditional-layers";
 
@@ -44,8 +58,9 @@
                          &lt 1 SPACE  &lt 2 BSPC  &lt 1 SPACE   &kp RET  &mo 2  &kp RALT
             >;
 
-            /* Clockwise is volume up; swap these two back if the encoder is reversed. */
-            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_VOL_DN C_VOL_UP>;
+            /* Left encoder volume, right encoder scroll. Swap the pair in a
+               binding to reverse that encoder's direction. */
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &scroll_encoder>;
         };
 
         num_layer {
@@ -57,8 +72,9 @@
                                  &trans    &trans    &trans     &trans     &trans    &trans
             >;
 
-            /* Clockwise is volume up; swap these two back if the encoder is reversed. */
-            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_VOL_DN C_VOL_UP>;
+            /* Left encoder volume, right encoder scroll. Swap the pair in a
+               binding to reverse that encoder's direction. */
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &scroll_encoder>;
         };
 
         nav_layer {
@@ -70,8 +86,9 @@
                            &trans  &trans  &trans  &trans      &trans    &trans
             >;
 
-            /* Clockwise is volume up; swap these two back if the encoder is reversed. */
-            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_VOL_DN C_VOL_UP>;
+            /* Left encoder volume, right encoder scroll. Swap the pair in a
+               binding to reverse that encoder's direction. */
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &scroll_encoder>;
         };
 
         test_layer {
@@ -83,8 +100,9 @@
                                                                                          &trans                              &trans                          &trans             &trans       &trans      &trans
             >;
 
-            /* Clockwise is volume up; swap these two back if the encoder is reversed. */
-            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_VOL_DN C_VOL_UP>;
+            /* Left encoder volume, right encoder scroll. Swap the pair in a
+               binding to reverse that encoder's direction. */
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &scroll_encoder>;
         };
     };
 };
