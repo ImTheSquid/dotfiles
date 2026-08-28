@@ -6,7 +6,8 @@
  * 2 NAV   arrows, F-keys, media   hold SW20 (middle left thumb)
  * 3 TEST  RGB and reset controls  hold both left thumbs, or latch with T3
  *
- * SW21 (inner left thumb) is the encoder position and has no switch.
+ * One of the outer two left thumb positions is the encoder and has no switch;
+ * both carry space/NUM so the layer is reachable either way.
  */
 
 #include <behaviors.dtsi>
@@ -40,10 +41,11 @@
 &kp TAB    &kp Q  &kp W  &kp E        &kp R       &kp T   &kp Y    &kp U  &kp I      &kp O    &kp P     &kp BSPC
 &kp LCTRL  &kp A  &kp S  &kp D        &kp F       &kp G   &kp H    &kp J  &kp K      &kp L    &kp SEMI  &kp SQT
 &kp LSHFT  &kp Z  &kp X  &kp C        &kp V       &kp B   &kp N    &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
-                         &lt 1 SPACE  &lt 2 BSPC  &none   &kp RET  &mo 2  &kp RALT
+                         &lt 1 SPACE  &lt 2 BSPC  &lt 1 SPACE   &kp RET  &mo 2  &kp RALT
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+            /* Clockwise is volume up; swap these two back if the encoder is reversed. */
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
         num_layer {
@@ -55,7 +57,8 @@
                                  &trans    &trans    &trans     &trans     &trans    &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+            /* Clockwise is volume up; swap these two back if the encoder is reversed. */
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
         nav_layer {
@@ -67,7 +70,8 @@
                            &trans  &trans  &trans  &trans      &trans    &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+            /* Clockwise is volume up; swap these two back if the encoder is reversed. */
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
         test_layer {
@@ -79,7 +83,8 @@
                                                                                          &trans                              &trans                          &trans             &trans       &trans      &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+            /* Clockwise is volume up; swap these two back if the encoder is reversed. */
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
     };
 };
