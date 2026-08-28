@@ -2,9 +2,11 @@
  * Aurora Corne rev1.1 — standard QWERTY + hardware test layer.
  *
  * 0 BASE  QWERTY
- * 1 NUM   numbers and symbols     (hold left thumb)
- * 2 NAV   arrows, F-keys, media   (hold right thumb)
- * 3 TEST  RGB and reset controls  (NUM+NAV, or latch from the left half alone)
+ * 1 NUM   numbers and symbols     hold SW19 (outer left thumb)
+ * 2 NAV   arrows, F-keys, media   hold SW20 (middle left thumb)
+ * 3 TEST  RGB and reset controls  hold both left thumbs, or latch with T3
+ *
+ * SW21 (inner left thumb) is the encoder position and has no switch.
  */
 
 #include <behaviors.dtsi>
@@ -35,10 +37,10 @@
         base_layer {
             display-name = "BASE";
             bindings = <
-&kp TAB    &kp Q  &kp W  &kp E     &kp R        &kp T        &kp Y      &kp U  &kp I      &kp O    &kp P     &kp BSPC
-&kp LCTRL  &kp A  &kp S  &kp D     &kp F        &kp G        &kp H      &kp J  &kp K      &kp L    &kp SEMI  &kp SQT
-&kp LSHFT  &kp Z  &kp X  &kp C     &kp V        &kp B        &kp N      &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
-                         &kp LGUI  &lt 1 SPACE  &kp C_MUTE   &kp RET    &mo 2  &kp RALT
+&kp TAB    &kp Q  &kp W  &kp E        &kp R       &kp T   &kp Y    &kp U  &kp I      &kp O    &kp P     &kp BSPC
+&kp LCTRL  &kp A  &kp S  &kp D        &kp F       &kp G   &kp H    &kp J  &kp K      &kp L    &kp SEMI  &kp SQT
+&kp LSHFT  &kp Z  &kp X  &kp C        &kp V       &kp B   &kp N    &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
+                         &lt 1 SPACE  &lt 2 BSPC  &none   &kp RET  &mo 2  &kp RALT
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
@@ -47,25 +49,25 @@
         num_layer {
             display-name = "NUM";
             bindings = <
-&kp GRAVE  &kp N1     &kp N2     &kp N3    &kp N4    &kp N5     &kp N6     &kp N7    &kp N8     &kp N9    &kp N0     &kp BSPC
-&trans     &kp EXCL   &kp AT     &kp HASH  &kp DLLR  &kp PRCNT  &kp CARET  &kp AMPS  &kp STAR   &kp LPAR  &kp RPAR   &kp PIPE
-&tog 3     &kp MINUS  &kp EQUAL  &kp LBKT  &kp RBKT  &kp BSLH   &kp UNDER  &kp PLUS  &kp LBRC   &kp RBRC  &kp TILDE  &kp DEL
+&kp GRAVE  &kp N1     &kp N2     &kp N3    &kp N4    &kp N5     &kp N6     &kp N7    &kp N8    &kp N9    &kp N0     &kp BSPC
+&trans     &kp EXCL   &kp AT     &kp HASH  &kp DLLR  &kp PRCNT  &kp CARET  &kp AMPS  &kp STAR  &kp LPAR  &kp RPAR   &kp PIPE
+&kp LGUI   &kp MINUS  &kp EQUAL  &kp LBKT  &kp RBKT  &kp BSLH   &kp UNDER  &kp PLUS  &kp LBRC  &kp RBRC  &kp TILDE  &kp DEL
                                  &trans    &trans    &trans     &trans     &trans    &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
         nav_layer {
             display-name = "NAV";
             bindings = <
-&kp ESC  &kp F1   &kp F2   &kp F3   &kp F4   &kp F5   &kp F6      &kp F7     &kp F8    &kp F9     &kp F10    &kp DEL
-&trans   &kp F11  &kp F12  &none    &none    &none    &kp LEFT    &kp DOWN   &kp UP    &kp RIGHT  &kp HOME   &kp END
-&tog 3   &none    &none    &none    &none    &none    &kp C_PREV  &kp C_PP   &kp C_NEXT &kp PG_UP &kp PG_DN  &none
-                           &trans   &trans   &trans   &trans      &trans     &trans
+&kp ESC  &kp F1   &kp F2   &kp F3  &kp F4  &kp F5  &kp F6      &kp F7    &kp F8      &kp F9     &kp F10   &kp DEL
+&trans   &kp F11  &kp F12  &none   &none   &none   &kp LEFT    &kp DOWN  &kp UP      &kp RIGHT  &kp HOME  &kp END
+&tog 3   &none    &none    &none   &none   &none   &kp C_PREV  &kp C_PP  &kp C_NEXT  &kp PG_UP  &kp PG_DN &none
+                           &trans  &trans  &trans  &trans      &trans    &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_NEXT C_PREV &inc_dec_kp C_NEXT C_PREV>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
         test_layer {
@@ -77,7 +79,7 @@
                                                                                          &trans                              &trans                          &trans             &trans       &trans      &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_BRI_UP C_BRI_DN &inc_dec_kp C_BRI_UP C_BRI_DN>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
     };
 };
