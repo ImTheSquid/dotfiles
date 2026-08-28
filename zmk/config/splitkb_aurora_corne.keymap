@@ -4,7 +4,7 @@
  * 0 BASE  QWERTY, LEDs off
  * 1 NUM   left-hand symbols, right-hand numpad   hold inner left thumb (space)
  * 2 NAV   F-keys, arrows, media, ctrl-digits     hold middle left thumb (bspc)
- * 3 TEST  RGB and reset controls                 hold both, or latch with T3
+ * 3 SYS   Bluetooth, RGB, reset                  hold both, or latch with T3
  *
  * The outermost thumb on each half is the encoder position and has no switch.
  */
@@ -139,13 +139,13 @@
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &scroll_encoder>;
         };
 
-        test_layer {
-            display-name = "TEST";
+        sys_layer {
+            display-name = "SYS";
             bindings = <
-&rgb_ug RGB_TOG    &rgb_ug RGB_COLOR_HSB(0,100,100)  &rgb_ug RGB_COLOR_HSB(120,100,100)  &rgb_ug RGB_COLOR_HSB(240,100,100)  &rgb_ug RGB_COLOR_HSB(0,0,100)  &rgb_ug RGB_EFF    &bootloader  &sys_reset  &bt BT_CLR  &out OUT_USB  &out OUT_BLE  &none
-&ext_power EP_TOG  &rgb_ug RGB_HUI                   &rgb_ug RGB_SAI                     &rgb_ug RGB_BRI                     &rgb_ug RGB_SPI                 &rgb_ug RGB_ON     &none        &none       &none       &none         &none         &none
-&tog 3             &rgb_ug RGB_HUD                   &rgb_ug RGB_SAD                     &rgb_ug RGB_BRD                     &rgb_ug RGB_SPD                 &rgb_ug RGB_OFF    &none        &none       &none       &none         &none         &none
-                                                                                         &trans                              &trans                          &trans             &trans       &trans      &trans
+&rgb_ug RGB_TOG    &rgb_ug RGB_COLOR_HSB(0,100,100)  &rgb_ug RGB_COLOR_HSB(120,100,100)  &rgb_ug RGB_COLOR_HSB(240,100,100)  &rgb_ug RGB_COLOR_HSB(0,0,100)  &rgb_ug RGB_EFF    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR
+&ext_power EP_TOG  &rgb_ug RGB_HUI                   &rgb_ug RGB_SAI                     &rgb_ug RGB_BRI                     &rgb_ug RGB_SPI                 &rgb_ug RGB_ON     &out OUT_USB  &out OUT_BLE  &out OUT_TOG  &bt BT_PRV    &bt BT_NXT    &bt BT_CLR_ALL
+&tog 3             &rgb_ug RGB_HUD                   &rgb_ug RGB_SAD                     &rgb_ug RGB_BRD                     &rgb_ug RGB_SPD                 &rgb_ug RGB_OFF    &bootloader   &sys_reset    &none         &none         &none         &none
+                                                                                         &trans                              &trans                          &trans             &trans        &trans        &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &scroll_encoder>;

@@ -26,7 +26,7 @@ Volumes** in System Settings → Privacy & Security → Files and Folders.
 0 BASE   QWERTY, LEDs off
 1 NUM    symbols left, numpad right   hold inner left thumb (space)   blue
 2 NAV    F-keys, arrows, media        hold middle left thumb (bspc)   green
-3 TEST   RGB + reset                  hold both, or latch with T3
+3 SYS    Bluetooth, RGB, reset        hold both, or latch with T3
 ```
 
 **BASE**
@@ -95,10 +95,14 @@ keys, which a text editor won't show.
 Hold both left thumbs for TEST, or hold the middle thumb and tap `T3` to latch.
 
 ```
-TOG   RED   GRN   BLU   WHT   EFF        BOOT  RESET  BTCLR  USB  BLE  -
-EP    HUE+  SAT+  BRI+  SPD+  ON         -     -      -      -    -    -
-T3    HUE-  SAT-  BRI-  SPD-  OFF        -     -      -      -    -    -
+TOG   RED   GRN   BLU   WHT   EFF        BT0   BT1   BT2   BT3   BT4   BTCLR
+EP    HUE+  SAT+  BRI+  SPD+  ON         USB   BLE   TOG   BT<   BT>   CLRALL
+T3    HUE-  SAT-  BRI-  SPD-  OFF        BOOT  RESET -     -     -     -
 ```
+
+`BT0`–`BT4` are the five host profiles; `BTCLR` clears the active one and
+`CLRALL` clears every pairing. `BT<`/`BT>` step through profiles, and `USB`/`BLE`
+force the output endpoint.
 
 1. **RED / GRN / BLU / WHT** — each drives a single channel of every LED, so a
    die with a dead green channel shows as an off-colour pixel on the green
