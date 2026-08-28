@@ -2,12 +2,12 @@
  * Aurora Corne rev1.1 — standard QWERTY + hardware test layer.
  *
  * 0 BASE  QWERTY
- * 1 NUM   numbers and symbols     hold SW19 (outer left thumb)
- * 2 NAV   arrows, F-keys, media   hold SW20 (middle left thumb)
- * 3 TEST  RGB and reset controls  hold both left thumbs, or latch with T3
+ * 1 NUM   numbers and symbols     hold the inner left thumb (space)
+ * 2 NAV   arrows, F-keys, media   hold the middle left thumb (backspace)
+ * 3 TEST  RGB and reset controls  hold both, or latch with T3
  *
- * One of the outer two left thumb positions is the encoder and has no switch;
- * both carry space/NUM so the layer is reachable either way.
+ * The encoder takes the outermost left thumb position and has no push switch.
+ * Space/NUM is bound there anyway so the layer survives the encoder moving.
  */
 
 #include <behaviors.dtsi>

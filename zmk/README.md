@@ -19,9 +19,9 @@ reach the build via `-DZMK_CONFIG`, so edits here are picked up directly.
 
 ```
 0 BASE   QWERTY
-1 NUM    numbers + symbols        hold SW19 (outer left thumb)
-2 NAV    arrows, F-keys, media    hold SW20 (middle left thumb)
-3 TEST   RGB + reset              hold both left thumbs, or latch with T3
+1 NUM    numbers + symbols        hold the inner left thumb (space)
+2 NAV    arrows, F-keys, media    hold the middle left thumb (backspace)
+3 TEST   RGB + reset              hold both, or latch with T3
 ```
 
 **BASE**
@@ -30,21 +30,23 @@ reach the build via `-DZMK_CONFIG`, so edits here are picked up directly.
 TAB    Q  W  E  R  T      Y  U  I  O  P  BSPC
 CTRL   A  S  D  F  G      H  J  K  L  ;  '
 SHIFT  Z  X  C  V  B      N  M  ,  .  /  ESC
-          SPC  BSPC  --   RET  NAV  ALT
+          --  BSPC  SPC   RET  NAV  ALT
 ```
 
-The left thumb cluster is SW19/SW20/SW21 outer-to-inner. The encoder sits on
-**SW21** and this build has no encoder push switch, so that position is `&none`
-and only two thumb switches exist.
+The encoder occupies the **outermost** left thumb position and there's no encoder
+push switch, so two thumb switches remain. Both are hold-taps, which is what
+makes every layer reachable from the left half on its own:
 
-Both are hold-taps, which is what makes every layer reachable from the left half
-on its own:
-
-| | tap | hold |
+| left thumb | tap | hold |
 |---|---|---|
-| SW19 | space | NUM |
-| SW20 | backspace | NAV |
-| both | — | TEST |
+| outer | — | — (encoder) |
+| middle | backspace | NAV |
+| inner | space | NUM |
+| middle + inner | — | TEST |
+
+The keymap binds space/NUM to the outer position too. That's harmless — it's the
+encoder, so nothing is wired to it — and it keeps the config working if the
+encoder ever moves.
 
 `GUI` moved to NUM's bottom-left pinky, since the thumbs no longer have room.
 
