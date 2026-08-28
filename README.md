@@ -13,6 +13,7 @@ git clone https://github.com/ImTheSquid/dotfiles ~/dotfiles
 | --- | --- | --- |
 | `yabai/.yabairc` | `~/.yabairc` | Tiling WM. Must stay executable. |
 | `sketchybar/` | `~/.config/sketchybar` | Status bar; driven by yabai signals. |
+| `sketchybar/spaces.local.sh` | **not committed** | Optional per-machine space names. |
 | `karabiner/` | `~/.config/karabiner` | All window-management keybinds (replaced skhd). |
 | `nvim/` | `~/.config/nvim` | |
 | `ghostty/config` | `~/Library/Application Support/com.mitchellh.ghostty/config` | Terminal. |
@@ -23,6 +24,16 @@ git clone https://github.com/ImTheSquid/dotfiles ~/dotfiles
 | `scripts/toggle_yabai_focus.sh` | `~/toggle_yabai_focus.sh` | Karabiner calls this by absolute path. |
 | `firefox/userChrome.css` | manual | Drop into the profile's `chrome/`. |
 | `pi/` | **not linked** | pi agent config. See below. |
+
+## sketchybar
+
+Space names default to those in `sketchybarrc`. To change them on one machine,
+create `~/.config/sketchybar/spaces.local.sh` (gitignored) and reassign the
+array — one entry per space, and only as many spaces as entries get an item:
+
+```sh
+SPACE_NAMES=("Web" "Code" "Chat" "4" "5")
+```
 
 ## pi
 

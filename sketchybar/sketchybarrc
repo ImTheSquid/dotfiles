@@ -46,11 +46,15 @@ sketchybar --default "${default[@]}"
 # can re-evaluate its name when windows are created/moved/closed.
 sketchybar --add event window_change
 
-SPACE_ICONS=("Comms" "Main" "Research" "Beacons" "Scratch" "Era" "7" "8" "9" "10")
-for i in "${!SPACE_ICONS[@]}"
+# Defaults; override per machine in spaces.local.sh (gitignored) by reassigning
+# SPACE_NAMES, e.g. SPACE_NAMES=("Web" "Code" "Chat").
+SPACE_NAMES=($(seq 1 10))
+[ -f "$CONFIG_DIR/spaces.local.sh" ] && source "$CONFIG_DIR/spaces.local.sh"
+
+for i in "${!SPACE_NAMES[@]}"
 do
   sid="$(($i+1))"
-  default_icon="${SPACE_ICONS[i]}"
+  default_icon="${SPACE_NAMES[i]}"
   space=(
     space="$sid"
     icon="$default_icon"

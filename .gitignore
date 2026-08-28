@@ -6,6 +6,9 @@ karabiner/automatic_backups/
 # Machine-local secrets, sourced by zsh/.zshrc. Must never be committed.
 .zsh_secrets
 
+# Per-machine space names, sourced by sketchybar/sketchybarrc.
+sketchybar/spaces.local.sh
+
 # pi: only the sanitized JSON that pi/sync.sh produces belongs here.
 # auth.json is pi's credential store; the rest is cache and runtime state.
 pi/agent/auth.json
