@@ -34,7 +34,7 @@ Volumes** in System Settings → Privacy & Security → Files and Folders.
 ```
 DEL    Q  W  E  R  T      Y  U  I  O  P    \
 NAV    A  S  D  F  G      H  J  K  L  ;*   '*
-SHIFT  Z* X  C  V  B      N  M  ,  .  /*   SHIFT
+SHIFT  Z* X  C  V  B      N  M  ,  .  /*   CMD
           --  BSPC  SPC   RET  TAB  --
 ```
 
