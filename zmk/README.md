@@ -24,8 +24,8 @@ Volumes** in System Settings → Privacy & Security → Files and Folders.
 
 ```
 0 BASE   QWERTY, LEDs off
-1 NUM    symbols left, numpad right   hold inner left thumb (space)   blue
-2 NAV    F-keys, arrows, media        hold middle left thumb (bspc)   green
+1 NUM    symbols left, numpad right   hold middle left thumb (space)  blue
+2 NAV    F-keys, arrows, media        hold inner left thumb (bspc)    green
 3 SYS    Bluetooth, RGB, reset        hold both, or latch with T3
 ```
 
@@ -35,7 +35,7 @@ Volumes** in System Settings → Privacy & Security → Files and Folders.
 DEL    Q  W  E  R  T      Y  U  I  O  P    \
 NAV    A  S  D  F  G      H  J  K  L  ;*   '*
 SHIFT  Z* X  C  V  B      N  M  ,  .  /*   CMD
-          --  BSPC  SPC   RET  TAB  --
+          --  SPC  BSPC   TAB  RET  --
 ```
 
 `*` marks the dual-role keys carried over from the Moonlander: `;` is NAV on
@@ -92,7 +92,8 @@ keys, which a text editor won't show.
 
 ## Testing RGB
 
-Hold both left thumbs for TEST, or hold the middle thumb and tap `T3` to latch.
+Hold both left thumbs for SYS, or hold the inner thumb (NAV) and tap `T3` to
+latch.
 
 ```
 TOG   RED   GRN   BLU   WHT   EFF        BT0   BT1   BT2   BT3   BT4   BTCLR

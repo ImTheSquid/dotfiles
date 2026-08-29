@@ -2,8 +2,8 @@
  * Aurora Corne rev1.1 — QWERTY, laid out to echo the Moonlander config.
  *
  * 0 BASE  QWERTY, LEDs off
- * 1 NUM   left-hand symbols, right-hand numpad   hold inner left thumb (space)
- * 2 NAV   F-keys, arrows, media, ctrl-digits     hold middle left thumb (bspc)
+ * 1 NUM   left-hand symbols, right-hand numpad   hold middle left thumb (space)
+ * 2 NAV   F-keys, arrows, media, ctrl-digits     hold inner left thumb (bspc)
  * 3 SYS   Bluetooth, RGB, reset                  hold both, or latch with T3
  *
  * The outermost thumb on each half is the encoder position and has no switch.
@@ -112,7 +112,7 @@
 &kp DEL        &kp Q        &kp W  &kp E  &kp R  &kp T           &kp Y  &kp U  &kp I      &kp O    &kp P            &kp BSLH
 &nav_green 2   &kp A        &kp S  &kp D  &kp F  &kp G           &kp H  &kp J  &kp K      &kp L    &lt_nav 2 SEMI   &mt LALT SQT
 &kp LSHFT      &mt LCTRL Z  &kp X  &kp C  &kp V  &kp B           &kp N  &kp M  &kp COMMA  &kp DOT  &mt RCTRL FSLH   &kp LGUI
-                     &none  &lt_nav 2 BSPC  &lt_num 1 SPACE      &kp RET  &kp TAB  &none
+                     &none  &lt_num 1 SPACE  &lt_nav 2 BSPC      &kp TAB  &kp RET  &none
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &scroll_encoder>;
