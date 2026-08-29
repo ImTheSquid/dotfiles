@@ -39,7 +39,7 @@ SHIFT  Z* X  C  V  B      N  M  ,  .  /*   CMD
 ```
 
 `*` marks the dual-role keys carried over from the Moonlander: `;` is NAV on
-hold, `'` is GUI, `Z` is Ctrl, `/` is Ctrl. `DEL` above `NAV` above `SHIFT` on
+hold, `'` is Alt, `Z` is Ctrl, `/` is Ctrl. `DEL` above `NAV` above `SHIFT` on
 the left pinky mirrors that layout's outer column.
 
 **NUM** — left-hand symbols, right-hand numpad, as on the Moonlander
