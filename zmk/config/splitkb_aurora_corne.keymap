@@ -66,6 +66,23 @@
                 , <&macro_tap &rgb_ug RGB_OFF>
                 ;
         };
+        /*
+         * &kp LC(N3) emits the digit before the ctrl bit, so Karabiner sees a
+         * bare 3 and its mandatory-control rules never match. Press ctrl in its
+         * own report first.
+         */
+        ctl_num: ctl_num {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_param_1to1>
+                , <&macro_tap &kp MACRO_PLACEHOLDER>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
     };
 
     behaviors {
@@ -134,8 +151,8 @@
             display-name = "NAV";
             bindings = <
 &kp LG(SPACE)  &kp F1         &kp F2         &kp F3         &kp F4         &kp F5          &kp F6      &kp F7    &kp F8      &kp F9     &kp F10    &kp F11
-&trans         &kp LC(N1)     &kp LC(N2)     &kp LC(N3)     &kp LC(N4)     &kp LC(N5)      &kp LEFT    &kp DOWN  &kp UP      &kp RIGHT  &kp HOME   &kp END
-&tog 3         &kp LC(N6)     &kp LC(N7)     &kp LC(N8)     &kp LC(N9)     &kp LALT        &kp C_PREV  &kp C_PP  &kp C_NEXT  &kp PG_UP  &kp PG_DN  &kp F12
+&trans         &ctl_num N1    &ctl_num N2    &ctl_num N3    &ctl_num N4    &ctl_num N5     &kp LEFT    &kp DOWN  &kp UP      &kp RIGHT  &kp HOME   &kp END
+&tog 3         &ctl_num N6    &ctl_num N7    &ctl_num N8    &ctl_num N9    &kp LALT        &kp C_PREV  &kp C_PP  &kp C_NEXT  &kp PG_UP  &kp PG_DN  &kp F12
                                              &trans         &trans         &trans          &trans      &trans    &trans
             >;
 

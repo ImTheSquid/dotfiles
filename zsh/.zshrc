@@ -119,7 +119,7 @@ source $ZSH/oh-my-zsh.sh
 
 export LDFLAGS="-L/opt/homebrew/opt/openssl/lib"
 export CPPFLAGS="-L/opt/homebrew/opt/openssl/include"
-export PATH="$PATH:/Users/jackhogan/Library/Android/sdk/platform-tools:/Users/jackhogan/.cargo/bin:/Users/jackhogan/vcpkg"
+export PATH="/opt/homebrew/bin:$PATH:/Users/jackhogan/Library/Android/sdk/platform-tools:/Users/jackhogan/.cargo/bin:/Users/jackhogan/vcpkg"
 
 export VCPKG_HOME="$HOME/vcpkg"
 alias ls=eza
@@ -215,3 +215,7 @@ export SCCACHE_CACHE_SIZE="50G"
 export EDITOR=nvim
 export OLLAMA_ORIGINS="*"
 export CLAUDE_CODE_NO_FLICKER=1
+
+# Drop duplicate PATH entries, keeping the first (highest-priority) occurrence.
+typeset -U path
+export PATH
