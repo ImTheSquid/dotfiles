@@ -37,43 +37,50 @@ default=(
 )
 sketchybar --default "${default[@]}"
 
-##### Adding Mission Control Space Indicators #####
-# Let's add some mission control spaces:
-# https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
-# to indicate active and available mission control spaces.
+##### Adding AeroSpace Workspace Indicators #####
+# Plain items, not sketchybar's native `space` component: that component binds
+# to a mission control space index, and AeroSpace workspaces are not macOS
+# spaces.
 
-# Custom event fired by yabai signals (see ~/.yabairc) so the space plugin
-# can re-evaluate its name when windows are created/moved/closed.
-sketchybar --add event window_change
+# Custom event fired by AeroSpace (see aerospace/aerospace.toml) on workspace
+# change, on new windows, and from the move-to-workspace bindings.
+sketchybar --add event aerospace_workspace_change
 
 # Defaults; override per machine in spaces.local.sh (gitignored) by reassigning
-# SPACE_NAMES, e.g. SPACE_NAMES=("Web" "Code" "Chat").
+# SPACE_NAMES, e.g. SPACE_NAMES=("Web" "Code" "Chat"). One chip per entry;
+# keep the count in sync with persistent-workspaces in aerospace.toml.
 SPACE_NAMES=($(seq 1 10))
 [ -f "$CONFIG_DIR/spaces.local.sh" ] && source "$CONFIG_DIR/spaces.local.sh"
 
 for i in "${!SPACE_NAMES[@]}"
 do
   sid="$(($i+1))"
-  default_icon="${SPACE_NAMES[i]}"
+  # The icon is static: SPACE_NAMES never changes at runtime. AeroSpace
+  # workspace names stay numeric so $sid addresses them directly.
   space=(
-    space="$sid"
-    icon="$default_icon"
+    icon="${SPACE_NAMES[i]}"
     icon.padding_left=7
     icon.padding_right=7
     background.color=0x40ffffff
     background.corner_radius=5
     background.height=25
+    background.drawing=off
     label.font="Menlo:Bold:22.0"
     label.padding_left=2
     label.padding_right=8
     label.drawing=on
-    script="SPACE_DEFAULT_ICON=\"$default_icon\" $PLUGIN_DIR/space.sh"
-    click_script="yabai -m space --focus $sid"
+    click_script="/opt/homebrew/bin/aerospace workspace $sid"
   )
-  sketchybar --add space space."$sid" left \
-             --set space."$sid" "${space[@]}" \
-             --subscribe space."$sid" window_change
+  sketchybar --add item space."$sid" left \
+             --set space."$sid" "${space[@]}"
 done
+
+# One hidden driver refreshes every chip above in a single pass. update_freq is
+# the backstop for window close, which AeroSpace has no callback for.
+sketchybar --add item spaces_driver left \
+           --set spaces_driver drawing=off update_freq=2 \
+                 script="SPACE_COUNT=${#SPACE_NAMES[@]} $PLUGIN_DIR/aerospace.sh" \
+           --subscribe spaces_driver aerospace_workspace_change
 
 ##### Adding Left Items #####
 # We add some regular items to the left side of the bar, where

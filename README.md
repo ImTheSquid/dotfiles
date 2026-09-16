@@ -11,29 +11,45 @@ git clone https://github.com/ImTheSquid/dotfiles ~/dotfiles
 
 | Path | Links to | Notes |
 | --- | --- | --- |
-| `yabai/.yabairc` | `~/.yabairc` | Tiling WM. Must stay executable. |
-| `sketchybar/` | `~/.config/sketchybar` | Status bar; driven by yabai signals. |
-| `sketchybar/spaces.local.sh` | **not committed** | Optional per-machine space names. |
-| `karabiner/` | `~/.config/karabiner` | All window-management keybinds (replaced skhd). |
+| `aerospace/aerospace.toml` | `~/.aerospace.toml` | Tiling WM, and all window-management keybinds. |
+| `sketchybar/` | `~/.config/sketchybar` | Status bar; driven by AeroSpace callbacks. |
+| `sketchybar/spaces.local.sh` | **not committed** | Optional per-machine workspace names. |
+| `karabiner/` | `~/.config/karabiner` | caps→esc, the ZMK device remap, volume keys. |
 | `nvim/` | `~/.config/nvim` | |
 | `ghostty/config` | `~/Library/Application Support/com.mitchellh.ghostty/config` | Terminal. |
 | `zsh/` | `~/.zshrc`, `~/.zprofile`, `~/.zshenv` | oh-my-zsh, theme `gnzh`. |
 | `git/` | `~/.gitconfig`, `~/.gitignore`, `~/.config/git/ignore` | Commits are GPG-signed. |
 | `starship/starship.toml` | `~/.config/starship.toml` | |
 | `zed/settings.json` | `~/.config/zed/settings.json` | |
-| `scripts/toggle_yabai_focus.sh` | `~/toggle_yabai_focus.sh` | Karabiner calls this by absolute path. |
 | `firefox/userChrome.css` | manual | Drop into the profile's `chrome/`. |
 | `pi/` | **not linked** | pi agent config. See below. |
+| `yabai/.yabairc` | **not linked** | Previous WM. Kept for rollback only. |
 
 ## sketchybar
 
-Space names default to those in `sketchybarrc`. To change them on one machine,
-create `~/.config/sketchybar/spaces.local.sh` (gitignored) and reassign the
-array — one entry per space, and only as many spaces as entries get an item:
+Workspace names default to those in `sketchybarrc`. To change them on one
+machine, create `~/.config/sketchybar/spaces.local.sh` (gitignored) and reassign
+the array — one chip per entry:
 
 ```sh
 SPACE_NAMES=("Web" "Code" "Chat" "4" "5")
 ```
+
+`SPACE_NAMES` is cosmetic only. Which workspaces *exist* is set by
+`persistent-workspaces` in `aerospace/aerospace.toml`, so the two are separate
+sources of truth and want keeping in sync — a short `SPACE_NAMES` leaves the
+higher workspaces reachable by keybind with no chip on the bar.
+
+AeroSpace workspace names must stay numeric. The chip named `space.3` addresses
+workspace `3` in its click script, and the driver plugin compares that number
+against `aerospace list-workspaces --focused` to decide what to highlight.
+
+One hidden `spaces_driver` item refreshes every chip in a single pass, on the
+`aerospace_workspace_change` event plus a 2s timer. The timer is there because
+AeroSpace has no window-closed callback — opens, workspace switches and
+window moves all push the event, so only closing a window waits for a tick.
+The braille dots count every window AeroSpace knows about, including floating
+and minimized ones; yabai used to filter those out.
 
 ## pi
 
@@ -66,5 +82,44 @@ tracked.
   an atomic rename, which replaces a file symlink with a real file. The whole
   directory is linked instead so edits land in the repo.
 - **Ghostty path.** On macOS Ghostty reads Application Support, not `~/.config`.
-- **`~/.yabairc` needs the exec bit.** yabai runs it as a program; without `+x`
-  it starts with no config at all and silently behaves like a fresh install.
+- **macOS owns some of these chords by default.** "Switch to Desktop 1/2/3"
+  (ctrl+1/2/3) and "Move left/right a space" (ctrl+←/→) are enabled system
+  shortcuts and win against AeroSpace's. Karabiner used to mask this by
+  intercepting below symbolic-hotkey dispatch; native AeroSpace bindings do not.
+  Uncheck them in System Settings → Keyboard → Keyboard Shortcuts → Mission
+  Control.
+- **AeroSpace lives in one macOS space.** Its workspaces are virtual, not
+  Mission Control desktops. Leave extra desktops around and the workspace
+  keybinds behave unpredictably.
+- **Mouse move and resize are undocumented but built in.** Drag a tiled
+  window's edge to resize it; drag one tiled window onto another to swap them.
+  There is no `fn`-style modifier gate like yabai had, so use the normal grab
+  affordances. `defaults write -g NSWindowShouldDragOnGesture -bool true` adds
+  ctrl+cmd drag from anywhere on a window.
+- **`aerospace.toml` auto-reloads.** A syntax error can leave you with no
+  window-management keys at all, so keep a terminal open on a floating window
+  while editing it.
+
+## Rolling back to yabai
+
+`yabai/.yabairc` is still here and `brew`'s yabai is still installed.
+
+```sh
+pkill -x AeroSpace
+git revert <commit>                                  # restores karabiner + sketchybar
+mv ~/Library/LaunchAgents/com.asmvik.yabai.plist{.disabled,}
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.asmvik.yabai.plist
+chmod +x ~/dotfiles/yabai/.yabairc                   # yabai execs it; without
+ln -sfn ~/dotfiles/yabai/.yabairc ~/.yabairc         # +x it acts unconfigured
+brew services restart sketchybar
+```
+
+Note `com.asmvik.yabai` — **not** `com.koekeishiya.yabai` — is the launch agent
+that actually ran yabai on this machine, so `yabai --start-service` and
+`--stop-service` both do nothing useful here.
+
+This path depends on SIP and `/etc/sudoers.d/yabai` staying as they are:
+yabai's scripting addition needs both. Closing it out, once AeroSpace has
+earned its keep, means `brew uninstall yabai`, `sudo rm /etc/sudoers.d/yabai`,
+deleting both launch agent plists, and `csrutil enable` from Recovery — after
+which there is no going back.
