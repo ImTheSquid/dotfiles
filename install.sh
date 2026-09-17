@@ -8,7 +8,7 @@ GHOSTTY_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
 
 # Flat src/dest pairs. Destinations may contain spaces, so never word-split these.
 LINKS=(
-  "aerospace/aerospace.toml"      "$HOME/.aerospace.toml"
+  "yabai/.yabairc"                "$HOME/.yabairc"
   "sketchybar"                    "$HOME/.config/sketchybar"
   "karabiner"                     "$HOME/.config/karabiner"
   "nvim"                          "$HOME/.config/nvim"
@@ -21,6 +21,7 @@ LINKS=(
   "git/ignore"                    "$HOME/.config/git/ignore"
   "starship/starship.toml"        "$HOME/.config/starship.toml"
   "zed/settings.json"             "$HOME/.config/zed/settings.json"
+  "scripts/toggle_yabai_focus.sh" "$HOME/toggle_yabai_focus.sh"
 )
 
 link() {
@@ -51,6 +52,8 @@ echo "Linking dotfiles from $DOTS"
 for ((i = 0; i < ${#LINKS[@]}; i += 2)); do
   link "${LINKS[i]}" "${LINKS[i + 1]}"
 done
+
+chmod +x "$DOTS/yabai/.yabairc" "$DOTS/scripts/toggle_yabai_focus.sh"
 
 # ~/.sketchybarrc is what the sketchybar launch agent reads.
 ln -sfn "$HOME/.config/sketchybar/sketchybarrc" "$HOME/.sketchybarrc"
@@ -85,16 +88,13 @@ fi
 cat <<'EOF'
 
 Done. Remaining manual steps:
-  brew install sketchybar borders
-  brew install --cask nikitabobko/tap/aerospace ghostty karabiner-elements
+  brew install yabai sketchybar
+  brew install --cask ghostty karabiner-elements
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   git clone https://github.com/zsh-users/zsh-autosuggestions     ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
   git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-  open -a AeroSpace && brew services start sketchybar borders
+  yabai --start-service && brew services start sketchybar
 
-AeroSpace needs Accessibility permission (granted on first launch), and it
-lives inside ONE macOS space -- delete the extra desktops in Mission Control.
-Disable the Mission Control keyboard shortcuts it collides with:
-System Settings > Keyboard > Keyboard Shortcuts > Mission Control, uncheck
-"Switch to Desktop 1/2/3" and "Move left/right a space".
+yabai's scripting addition needs passwordless sudo:
+  https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#configure-scripting-addition
 EOF
