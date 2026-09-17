@@ -12,6 +12,7 @@ git clone https://github.com/ImTheSquid/dotfiles ~/dotfiles
 | Path | Links to | Notes |
 | --- | --- | --- |
 | `yabai/.yabairc` | `~/.yabairc` | Tiling WM. Must stay executable. |
+| `homebrew/yabai.rb` | `$(brew --repository)/Library/Taps/jackhogan/homebrew-local/Formula/yabai.rb` | Builds yabai from the fork. |
 | `sketchybar/` | `~/.config/sketchybar` | Status bar; driven by yabai signals. |
 | `sketchybar/spaces.local.sh` | **not committed** | Optional per-machine space names. |
 | `karabiner/` | `~/.config/karabiner` | All window-management keybinds (replaced skhd). |
@@ -68,3 +69,13 @@ tracked.
 - **Ghostty path.** On macOS Ghostty reads Application Support, not `~/.config`.
 - **`~/.yabairc` needs the exec bit.** yabai runs it as a program; without `+x`
   it starts with no config at all and silently behaves like a fresh install.
+- **yabai comes from the fork, not upstream.** `install.sh` links
+  `homebrew/yabai.rb` into the `jackhogan/local` tap; install with
+  `brew install jackhogan/local/yabai`, which builds HEAD of
+  `github.com/ImTheSquid/yabai`. Upstream (`asmvik/yabai`) lacks the macOS 27
+  offsets.
+- **`/etc/sudoers.d/yabai` pins the binary's sha256.** `sudo` re-hashes
+  `$(which yabai)` before allowing `--load-sa`, so the entry must be regenerated
+  whenever the binary's bytes change: a new commit on the fork, or a toolchain
+  update. The build itself is reproducible — reinstalling the same commit keeps
+  the entry valid. `brew info jackhogan/local/yabai` prints the command.

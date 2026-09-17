@@ -55,6 +55,16 @@ done
 
 chmod +x "$DOTS/yabai/.yabairc" "$DOTS/scripts/toggle_yabai_focus.sh"
 
+# yabai is built from the fork at github.com/ImTheSquid/yabai, not upstream.
+# The formula lives here; link it into a local tap so brew can install it.
+if command -v brew >/dev/null 2>&1; then
+  TAP="$(brew --repository)/Library/Taps/jackhogan/homebrew-local"
+  [[ -d "$TAP" ]] || brew tap-new --branch=main jackhogan/local >/dev/null
+  link "homebrew/yabai.rb" "$TAP/Formula/yabai.rb"
+else
+  echo "  skip   yabai formula (no brew on PATH)"
+fi
+
 # ~/.sketchybarrc is what the sketchybar launch agent reads.
 ln -sfn "$HOME/.config/sketchybar/sketchybarrc" "$HOME/.sketchybarrc"
 echo "  link   $HOME/.sketchybarrc"
@@ -88,13 +98,16 @@ fi
 cat <<'EOF'
 
 Done. Remaining manual steps:
-  brew install yabai sketchybar
+  brew install jackhogan/local/yabai sketchybar   # yabai: the fork, built from HEAD
   brew install --cask ghostty karabiner-elements
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   git clone https://github.com/zsh-users/zsh-autosuggestions     ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
   git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
   yabai --start-service && brew services start sketchybar
 
-yabai's scripting addition needs passwordless sudo:
-  https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#configure-scripting-addition
+yabai's scripting addition needs passwordless sudo. The rule pins the binary's
+sha256, so re-run this whenever a build picks up a new commit:
+  echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 $(which yabai) | cut -d ' ' -f 1) $(which yabai) --load-sa"
+  sudo visudo -f /private/etc/sudoers.d/yabai
+  sudo yabai --load-sa
 EOF
