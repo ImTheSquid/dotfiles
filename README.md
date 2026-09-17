@@ -99,20 +99,6 @@ tracked.
 - **`aerospace.toml` auto-reloads.** A syntax error can leave you with no
   window-management keys at all, so keep a terminal open on a floating window
   while editing it.
-- **Native fullscreen gets its own macOS Space; AeroSpace's does not.**
-  `cmd-enter` (`fullscreen --no-outer-gaps`) fills the monitor inside the
-  current workspace, so every binding keeps working — use it. `cmd-shift-enter`
-  (`macos-native-fullscreen`) hands the window a separate Space, and while
-  you're in it `ctrl+N` only escapes if workspace N has a window to raise;
-  an empty workspace is a dead end. `cmd-shift-enter` always gets you back out,
-  because it acts on the focused window without switching Spaces.
-
-  Apps that fullscreen themselves (a video player, YouTube's fullscreen button)
-  use the native kind, and no config here can stop them. In a browser, prefer
-  the site's own maximize (YouTube's `t` for theater mode) plus `cmd-enter`.
-  Firefox can be made to stop using native fullscreen entirely, via
-  `full-screen-api.macos-native-full-screen = false` in `about:config`;
-  Chromium-based browsers have no equivalent pref.
 
 ## Rolling back to yabai
 
@@ -121,16 +107,16 @@ tracked.
 ```sh
 pkill -x AeroSpace
 git revert <commit>                                  # restores karabiner + sketchybar
+mv ~/Library/LaunchAgents/com.asmvik.yabai.plist{.disabled,}
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.asmvik.yabai.plist
 chmod +x ~/dotfiles/yabai/.yabairc                   # yabai execs it; without
 ln -sfn ~/dotfiles/yabai/.yabairc ~/.yabairc         # +x it acts unconfigured
-yabai --start-service
 brew services restart sketchybar
 ```
 
-yabai was transferred from `koekeishiya/yabai` to `asmvik/yabai`, so its launch
-agent is `com.asmvik.yabai` and `--start-service` / `--stop-service` manage that
-one. A stale `com.koekeishiya.yabai.plist` from before the transfer may also be
-loaded; it holds no PID and can be deleted.
+Note `com.asmvik.yabai` — **not** `com.koekeishiya.yabai` — is the launch agent
+that actually ran yabai on this machine, so `yabai --start-service` and
+`--stop-service` both do nothing useful here.
 
 This path depends on SIP and `/etc/sudoers.d/yabai` staying as they are:
 yabai's scripting addition needs both. Closing it out, once AeroSpace has
