@@ -1,0 +1,5 @@
+{
+  "name": "subagent-budget",
+  "version": "0.1.0",
+  "description": "Soft token budgets for subagents, set with [budget: 50k] in the Agent description."
+}

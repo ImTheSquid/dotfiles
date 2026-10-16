@@ -1,0 +1,11 @@
+{
+  "name": "jackhogan-mods",
+  "owner": { "name": "jackhogan" },
+  "plugins": [
+    {
+      "name": "subagent-budget",
+      "source": "./mods/subagent-budget",
+      "description": "Soft token budgets for subagents, set with [budget: 50k] in the Agent description."
+    }
+  ]
+}

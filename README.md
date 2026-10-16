@@ -23,6 +23,7 @@ git clone https://github.com/ImTheSquid/dotfiles ~/dotfiles
 | `starship/starship.toml` | `~/.config/starship.toml` | |
 | `zed/settings.json` | `~/.config/zed/settings.json` | |
 | `scripts/toggle_yabai_focus.sh` | `~/toggle_yabai_focus.sh` | Karabiner calls this by absolute path. |
+| `claude-mods/` | local Claude Code marketplace `jackhogan-mods` | Mods, installed by `install.sh`; read from the repo in place. |
 | `firefox/userChrome.css` | manual | Drop into the profile's `chrome/`. |
 | `pi/` | **not linked** | pi agent config. See below. |
 

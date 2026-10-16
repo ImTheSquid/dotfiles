@@ -86,6 +86,21 @@ if ((${#STOLEN[@]})); then
   echo "         fix with: sudo chown -R $USER:staff ${STOLEN[*]}"
 fi
 
+# Claude Code mods live in a local marketplace, read from this folder in place:
+# edit a mod here, then /reload-plugins.
+if command -v claude >/dev/null 2>&1; then
+  MODS_MARKETPLACE="jackhogan-mods"
+  claude plugin marketplace list 2>/dev/null | grep -q "$MODS_MARKETPLACE" ||
+    claude plugin marketplace add "$DOTS/claude-mods" >/dev/null
+  for mod in subagent-budget; do
+    claude plugin list 2>/dev/null | grep -q "$mod@$MODS_MARKETPLACE" ||
+      claude plugin install "$mod@$MODS_MARKETPLACE" >/dev/null
+    echo "  mod    $mod@$MODS_MARKETPLACE"
+  done
+else
+  echo "  skip   claude mods (no claude on PATH)"
+fi
+
 if [[ ! -f "$HOME/.zsh_secrets" ]]; then
   cat > "$HOME/.zsh_secrets" <<'EOF'
 #!/usr/bin/env zsh
