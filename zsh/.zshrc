@@ -206,6 +206,9 @@ fix_quotes() {
 nsh() {
     nix-shell -p $@
 }
+inkcut() {
+    uvx --with pyqt6 inkcut
+}
 
 # Machine-local secrets, kept out of the dotfiles repo.
 [ -f "$HOME/.zsh_secrets" ] && source "$HOME/.zsh_secrets"

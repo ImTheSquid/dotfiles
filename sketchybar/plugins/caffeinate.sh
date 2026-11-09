@@ -67,7 +67,13 @@ if [[ "$(/Applications/BetterDisplay.app/Contents/MacOS/BetterDisplay get -name=
     ICON=􂇗
     DRAW=yes
     sketchybar --set "$NAME" icon.color=0xFFFFFFFF
-    killall caffeinate > /dev/null
+    # Protect the OLED: kill only caffeinates that keep the display awake (-d, -u).
+    # System-only ones (-i, -s, -m) let the display sleep, so long jobs keep running.
+    DISPLAY_PIDS=$(pmset -g assertions | awk '
+        /\(caffeinate\):/ && /(PreventUserIdleDisplaySleep|UserIsActive|NoDisplaySleep)/ {
+            if (match($0, /pid [0-9]+/)) print substr($0, RSTART + 4, RLENGTH - 4)
+        }' | sort -u)
+    [ -n "$DISPLAY_PIDS" ] && kill $DISPLAY_PIDS 2>/dev/null
 else
     ICON=􂊭
 fi
