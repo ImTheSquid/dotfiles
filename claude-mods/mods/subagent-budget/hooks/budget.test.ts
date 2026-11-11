@@ -1,5 +1,5 @@
 import { test, expect } from 'claude-code/testing'
-import { cost, parseBudget } from './budget'
+import { bar, cost, parseBudget } from './budget'
 
 test('parses k, m and bare budgets and strips the tag', () => {
   expect(parseBudget('scan repo [budget: 50k]')).toEqual({ budget: 50_000, description: 'scan repo' })
@@ -10,4 +10,10 @@ test('parses k, m and bare budgets and strips the tag', () => {
 
 test('cost excludes cache reads', () => {
   expect(cost({ input_tokens: 10, output_tokens: 20, cache_creation_input_tokens: 5 })).toBe(35)
+})
+
+test('bar fills proportionally and caps at full', () => {
+  expect(bar(0, 100, 4)).toBe('░░░░')
+  expect(bar(50, 100, 4)).toBe('██░░')
+  expect(bar(500, 100, 4)).toBe('████')
 })

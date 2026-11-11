@@ -1,5 +1,6 @@
 {
   "name": "subagent-budget",
-  "version": "0.1.0",
-  "description": "Soft token budgets for subagents, set with [budget: 50k] in the Agent description."
+  "version": "0.2.0",
+  "description": "Soft token budgets for subagents, set with [budget: 50k] in the Agent description.",
+  "types": "./types/index.d.ts"
 }

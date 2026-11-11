@@ -26,3 +26,9 @@ export function cost(u: {
 export function fmt(n: number): string {
   return n >= 1000 ? `${Math.round(n / 100) / 10}k` : String(n)
 }
+
+/** A fixed-width bar of `width` cells filled to used/budget, capped at full. */
+export function bar(used: number, budget: number, width = 12): string {
+  const filled = Math.min(width, Math.round((used / budget) * width))
+  return '█'.repeat(filled) + '░'.repeat(width - filled)
+}
