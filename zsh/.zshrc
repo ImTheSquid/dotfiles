@@ -213,8 +213,6 @@ inkcut() {
 # Machine-local secrets, kept out of the dotfiles repo.
 [ -f "$HOME/.zsh_secrets" ] && source "$HOME/.zsh_secrets"
 
-export SCCACHE_DIR="$HOME/Library/Caches/sccache"
-export SCCACHE_CACHE_SIZE="50G"
 export EDITOR=nvim
 export OLLAMA_ORIGINS="*"
 export CLAUDE_CODE_NO_FLICKER=1
